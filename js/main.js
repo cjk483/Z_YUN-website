@@ -55,10 +55,12 @@
     const section = document.getElementById('projects');
     if (!section || !CONTENT.projects) return;
 
+    const typeMap = { '住宅': 'Residence', '商辦公設': 'Commercial' };
+
     CONTENT.projects.forEach((p, i) => {
       const num = String(i + 1).padStart(2, '0');
-      // Handle \n in title → <br>
       const titleHtml = p.title.replace(/\n/g, '<br>');
+      const typeEn = typeMap[p.type] || p.type;
 
       const article = document.createElement('article');
       article.className = 'project';
@@ -71,13 +73,9 @@
           <img src="${p.cover}" alt="${p.title.replace(/\n/g, ' ')}" loading="lazy" />
         </div>
         <div class="project-panel">
-          <div class="project-meta">
-            <span class="project-num">${num}</span>
-            <span class="project-tag">${p.type}</span>
-          </div>
+          <span class="project-num">${num}</span>
           <h2 class="project-title">${titleHtml}</h2>
-          <p class="project-loc">${p.location}</p>
-          <span class="project-view">查看作品 →</span>
+          <p class="project-loc">${typeEn} · ${p.location}</p>
         </div>
       `;
 

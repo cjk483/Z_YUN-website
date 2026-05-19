@@ -61,10 +61,19 @@ button { border: none; background: none; cursor: pointer; }
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 6px;
 }
 
-.logo-link { display: block; width: 70px; align-self: center; }
+/* Logo centered over 時蘊設計; text left-aligned below */
+.logo-zh-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers logo over brand-zh */
+  gap: 14px;
+  margin-bottom: 2px;
+}
+
+.logo-link { display: block; width: 70px; }
 
 .logo-img {
   width: 70px;
@@ -72,13 +81,6 @@ button { border: none; background: none; cursor: pointer; }
   display: block;
   filter: invert(1);
   object-fit: contain;
-}
-
-.brand-name {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
 }
 
 .brand-zh {
@@ -238,25 +240,33 @@ button { border: none; background: none; cursor: pointer; }
 
 
 /* ============================================================
-   PROJECTS
+   PROJECTS — 2-column grid
    ============================================================ */
-.projects-section { min-height: auto; }
-
-.projects-header {
-  padding: 56px 56px 20px;
+.projects-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+  row-gap: 56px;
+  padding: 64px 56px 80px;
+  align-items: start;
 }
 
-/* Each project row */
+.projects-header {
+  grid-column: 1 / -1;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
 .project {
-  display: grid;
-  grid-template-columns: 78fr 22fr;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
 }
 
 .project-image {
   overflow: hidden;
   position: relative;
+  aspect-ratio: 4 / 3;
 }
 
 .project-image img {
@@ -270,78 +280,34 @@ button { border: none; background: none; cursor: pointer; }
   transform: scale(1.04);
 }
 
-/* Archi panel — white with black ruled lines */
 .project-panel {
-  background: #ffffff;
-  border-left: 1px solid var(--text);
+  padding: 16px 0 0 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 56px 48px;
-  position: relative;
-  transition: background 0.4s;
-}
-
-.project:hover .project-panel {
-  background: #F8F8F8;
-}
-
-.project-meta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 18px;
+  gap: 5px;
 }
 
 .project-num {
   font-family: var(--font-en);
   font-size: 10px;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.3em;
   color: var(--text-muted);
-}
-
-.project-tag {
-  font-size: 9.5px;
-  letter-spacing: 0.2em;
-  color: var(--text-muted);
-  border: 1px solid var(--text-muted);
-  padding: 2px 9px;
-  border-radius: 0;
 }
 
 .project-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 300;
   letter-spacing: 0.14em;
-  line-height: 1.7;
+  line-height: 1.5;
   color: var(--text);
-  margin-bottom: 10px;
 }
 
 .project-loc {
   font-family: var(--font-en);
   font-size: 10px;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.2em;
   color: var(--text-muted);
-  margin-bottom: 32px;
-}
-
-.project-view {
-  font-family: var(--font-en);
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  color: var(--text);
-  border: 1px solid var(--text);
-  padding: 9px 18px;
-  display: inline-block;
-  transition: background 0.3s, color 0.3s, letter-spacing 0.3s;
-  width: fit-content;
-}
-
-.project:hover .project-view {
-  background: var(--text);
-  color: var(--bg);
-  letter-spacing: 0.4em;
+  text-transform: uppercase;
 }
 
 
@@ -425,7 +391,8 @@ button { border: none; background: none; cursor: pointer; }
 .contact-section {
   display: flex;
   align-items: center;
-  background: var(--bg-dark);
+  background: var(--bg);
+  border-top: 1px solid var(--border);
   padding: 100px 72px;
   min-height: 80vh;
 }
@@ -435,7 +402,7 @@ button { border: none; background: none; cursor: pointer; }
 }
 
 .contact-label-top {
-  color: rgba(248, 245, 240, 0.3);
+  color: var(--text-muted);
   margin-bottom: 52px;
   display: block;
 }
@@ -457,40 +424,40 @@ button { border: none; background: none; cursor: pointer; }
 .contact-key {
   font-size: 9.5px;
   letter-spacing: 0.3em;
-  color: rgba(248, 245, 240, 0.3);
+  color: var(--text-muted);
 }
 
 .contact-val {
   font-size: 14px;
   font-weight: 300;
   letter-spacing: 0.08em;
-  color: rgba(248, 245, 240, 0.8);
+  color: var(--text);
   transition: color 0.3s;
 }
 
 a.contact-val:hover {
-  color: #F8F5F0;
+  color: var(--text-muted);
 }
 
 .contact-company {
-  border-top: 1px solid rgba(248, 245, 240, 0.08);
+  border-top: 1px solid var(--border);
   padding-top: 30px;
   font-size: 10.5px;
   letter-spacing: 0.28em;
-  color: rgba(248, 245, 240, 0.25);
+  color: var(--text-muted);
 }
 
 /* ── Contact designer card ── */
 .contact-designer {
   margin-bottom: 44px;
   padding-bottom: 40px;
-  border-bottom: 1px solid rgba(248, 245, 240, 0.12);
+  border-bottom: 1px solid var(--border);
 }
 
 .contact-designer-role {
   font-size: 10px;
   letter-spacing: 0.35em;
-  color: rgba(248, 245, 240, 0.35);
+  color: var(--text-muted);
   margin-bottom: 10px;
 }
 
@@ -498,7 +465,7 @@ a.contact-val:hover {
   font-size: 32px;
   font-weight: 300;
   letter-spacing: 0.35em;
-  color: rgba(248, 245, 240, 0.9);
+  color: var(--text);
   margin-bottom: 4px;
 }
 
@@ -507,7 +474,7 @@ a.contact-val:hover {
   font-size: 13px;
   font-weight: 300;
   letter-spacing: 0.35em;
-  color: rgba(248, 245, 240, 0.4);
+  color: var(--text-muted);
 }
 
 /* remove old about-right / designer-card since moved to contact */
@@ -709,6 +676,12 @@ a.contact-val:hover {
     flex: 1;
   }
 
+  .logo-zh-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
   .logo-link { width: 34px; }
   .logo-img { width: 34px; }
 
@@ -744,22 +717,15 @@ a.contact-val:hover {
 
   .hero-quote { font-size: 15px; line-height: 2.4; margin-bottom: 32px; }
 
-  /* ── Projects: stack ── */
-  .project {
+  /* ── Projects: single column on mobile ── */
+  .projects-section {
     grid-template-columns: 1fr;
-    grid-template-rows: 72vw auto;
-    height: auto;
+    padding: 48px 24px 64px;
+    row-gap: 40px;
+    column-gap: 0;
   }
 
-  .project-image { height: 72vw; }
-
-  .project-panel {
-    border-left: none;
-    border-top: 1px solid var(--text);
-    padding: 32px 28px;
-  }
-
-  .project-title { font-size: 20px; }
+  .project-title { font-size: 18px; }
 
   /* ── About ── */
   .about-section { padding: 64px 28px; min-height: auto; }
