@@ -1,0 +1,8 @@
+# Photos folder (large, managed separately)
+案件照片/
+
+# Temp / editor
+_doc_content.txt
+.claude/
+*.DS_Store
+Thumbs.db
