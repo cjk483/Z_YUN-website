@@ -128,6 +128,27 @@
       row.innerHTML = `<span class="contact-key">${key}</span>${valEl}`;
       list.appendChild(row);
     });
+
+    const socialList = document.getElementById('contact-social');
+    if (socialList && CONTENT.social) {
+      const iconMap = {
+        Facebook: '<span class="social-icon social-icon-facebook" aria-hidden="true">f</span>',
+        Instagram: '<span class="social-icon social-icon-instagram" aria-hidden="true"><span></span></span>',
+      };
+
+      CONTENT.social.forEach(({ name, label, url }) => {
+        const link = document.createElement('a');
+        link.className = 'social-link' + (url ? '' : ' is-placeholder');
+        link.href = url || '#';
+        link.setAttribute('aria-label', name);
+        if (url) link.target = '_blank';
+        if (url) link.rel = 'noopener noreferrer';
+        if (!url) link.setAttribute('aria-disabled', 'true');
+        link.innerHTML = `${iconMap[name] || `<span class="social-mark">${label}</span>`}<span class="social-name">${name}</span>`;
+        if (!url) link.addEventListener('click', e => e.preventDefault());
+        socialList.appendChild(link);
+      });
+    }
   })();
 
 

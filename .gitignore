@@ -6,3 +6,4 @@ _doc_content.txt
 .claude/
 *.DS_Store
 Thumbs.db
+_preview-*.png
