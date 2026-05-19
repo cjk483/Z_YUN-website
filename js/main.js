@@ -169,27 +169,36 @@
 
   /* ── Lightbox ── */
   (function initLightbox() {
+    const typeMap = { '住宅': 'Residence', '商辦公設': 'Commercial' };
+
     const lb = document.createElement('div');
     lb.className = 'lightbox';
     lb.setAttribute('role', 'dialog');
     lb.setAttribute('aria-modal', 'true');
     lb.innerHTML = `
-      <div class="lightbox-header">
-        <div>
-          <p class="lightbox-meta"></p>
-          <h2 class="lightbox-title"></h2>
-        </div>
-        <button class="lightbox-close" aria-label="關閉">ESC · CLOSE</button>
-      </div>
-      <div class="lightbox-body">
-        <button class="lightbox-nav lightbox-prev" aria-label="上一張">← PREV</button>
+      <div class="lightbox-photo-area">
+        <button class="lightbox-nav lightbox-prev" aria-label="上一張">&#x2039;</button>
         <img class="lightbox-img" src="" alt="">
-        <button class="lightbox-nav lightbox-next" aria-label="下一張">NEXT →</button>
+        <button class="lightbox-nav lightbox-next" aria-label="下一張">&#x203A;</button>
       </div>
-      <div class="lightbox-thumbs"></div>
-      <div class="lightbox-footer">
-        <span class="lightbox-desc"></span>
-        <span class="lightbox-counter"></span>
+      <div class="lightbox-info">
+        <button class="lightbox-close" aria-label="關閉">CLOSE</button>
+        <p class="lightbox-type-label"></p>
+        <h2 class="lightbox-title"></h2>
+        <div class="lightbox-attrs">
+          <div class="lightbox-attr-row">
+            <span class="lightbox-attr-key">Type</span>
+            <span class="lightbox-attr-val" id="lb-type"></span>
+          </div>
+          <div class="lightbox-attr-row">
+            <span class="lightbox-attr-key">Location</span>
+            <span class="lightbox-attr-val" id="lb-location"></span>
+          </div>
+        </div>
+        <div class="lightbox-footer">
+          <p class="lightbox-desc"></p>
+          <p class="lightbox-counter"></p>
+        </div>
       </div>
     `;
     document.body.appendChild(lb);
@@ -197,32 +206,13 @@
     let photos = [];
     let current = 0;
 
-    const imgEl    = lb.querySelector('.lightbox-img');
-    const titleEl  = lb.querySelector('.lightbox-title');
-    const metaEl   = lb.querySelector('.lightbox-meta');
-    const descEl   = lb.querySelector('.lightbox-desc');
-    const countEl  = lb.querySelector('.lightbox-counter');
-    const thumbsEl = lb.querySelector('.lightbox-thumbs');
-
-    function buildThumbs() {
-      thumbsEl.innerHTML = '';
-      photos.forEach((src, i) => {
-        const img = document.createElement('img');
-        img.className = 'lightbox-thumb' + (i === current ? ' active' : '');
-        img.src = src;
-        img.alt = '';
-        img.loading = 'lazy';
-        img.addEventListener('click', e => { e.stopPropagation(); current = i; render(); });
-        thumbsEl.appendChild(img);
-      });
-    }
-
-    function syncThumbs() {
-      const thumbs = thumbsEl.querySelectorAll('.lightbox-thumb');
-      thumbs.forEach((t, i) => t.classList.toggle('active', i === current));
-      const active = thumbs[current];
-      if (active) active.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
-    }
+    const imgEl      = lb.querySelector('.lightbox-img');
+    const titleEl    = lb.querySelector('.lightbox-title');
+    const typeLblEl  = lb.querySelector('.lightbox-type-label');
+    const typeValEl  = lb.querySelector('#lb-type');
+    const locValEl   = lb.querySelector('#lb-location');
+    const descEl     = lb.querySelector('.lightbox-desc');
+    const countEl    = lb.querySelector('.lightbox-counter');
 
     function render() {
       imgEl.classList.add('loading');
@@ -233,16 +223,16 @@
       countEl.textContent =
         String(current + 1).padStart(2, '0') + ' / ' +
         String(photos.length).padStart(2, '0');
-      syncThumbs();
     }
 
     function open(project, startIdx) {
       photos  = project.photos && project.photos.length ? project.photos : [project.cover];
       current = startIdx || 0;
-      titleEl.textContent = project.title.replace(/\n/g, ' ');
-      metaEl.textContent  = project.type + ' · ' + project.location;
-      descEl.textContent  = project.description || '';
-      buildThumbs();
+      typeLblEl.textContent = typeMap[project.type] || project.type;
+      titleEl.textContent   = project.title.replace(/\n/g, ' ');
+      typeValEl.textContent = project.type;
+      locValEl.textContent  = project.location;
+      descEl.textContent    = project.description || '';
       render();
       lb.classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -259,7 +249,9 @@
     lb.querySelector('.lightbox-close').addEventListener('click', close);
     lb.querySelector('.lightbox-prev').addEventListener('click', e => { e.stopPropagation(); prev(); });
     lb.querySelector('.lightbox-next').addEventListener('click', e => { e.stopPropagation(); next(); });
-    lb.addEventListener('click', e => { if (e.target === lb || e.target === lb.querySelector('.lightbox-body')) close(); });
+    lb.querySelector('.lightbox-photo-area').addEventListener('click', e => {
+      if (e.target === lb.querySelector('.lightbox-photo-area')) close();
+    });
 
     document.addEventListener('keydown', e => {
       if (!lb.classList.contains('open')) return;
@@ -268,7 +260,6 @@
       if (e.key === 'ArrowRight') next();
     });
 
-    // Touch swipe
     let touchX = 0;
     lb.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
     lb.addEventListener('touchend', e => {
