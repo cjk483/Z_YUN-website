@@ -186,6 +186,7 @@
         <img class="lightbox-img" src="" alt="">
         <button class="lightbox-nav lightbox-next" aria-label="下一張">NEXT →</button>
       </div>
+      <div class="lightbox-thumbs"></div>
       <div class="lightbox-footer">
         <span class="lightbox-desc"></span>
         <span class="lightbox-counter"></span>
@@ -201,19 +202,38 @@
     const metaEl   = lb.querySelector('.lightbox-meta');
     const descEl   = lb.querySelector('.lightbox-desc');
     const countEl  = lb.querySelector('.lightbox-counter');
+    const thumbsEl = lb.querySelector('.lightbox-thumbs');
+
+    function buildThumbs() {
+      thumbsEl.innerHTML = '';
+      photos.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.className = 'lightbox-thumb' + (i === current ? ' active' : '');
+        img.src = src;
+        img.alt = '';
+        img.loading = 'lazy';
+        img.addEventListener('click', e => { e.stopPropagation(); current = i; render(); });
+        thumbsEl.appendChild(img);
+      });
+    }
+
+    function syncThumbs() {
+      const thumbs = thumbsEl.querySelectorAll('.lightbox-thumb');
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === current));
+      const active = thumbs[current];
+      if (active) active.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+    }
 
     function render() {
       imgEl.classList.add('loading');
       const src = photos[current];
       const tmp = new Image();
-      tmp.onload = () => {
-        imgEl.src = src;
-        imgEl.classList.remove('loading');
-      };
+      tmp.onload = () => { imgEl.src = src; imgEl.classList.remove('loading'); };
       tmp.src = src;
       countEl.textContent =
         String(current + 1).padStart(2, '0') + ' / ' +
         String(photos.length).padStart(2, '0');
+      syncThumbs();
     }
 
     function open(project, startIdx) {
@@ -222,6 +242,7 @@
       titleEl.textContent = project.title.replace(/\n/g, ' ');
       metaEl.textContent  = project.type + ' · ' + project.location;
       descEl.textContent  = project.description || '';
+      buildThumbs();
       render();
       lb.classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -238,7 +259,7 @@
     lb.querySelector('.lightbox-close').addEventListener('click', close);
     lb.querySelector('.lightbox-prev').addEventListener('click', e => { e.stopPropagation(); prev(); });
     lb.querySelector('.lightbox-next').addEventListener('click', e => { e.stopPropagation(); next(); });
-    lb.addEventListener('click', e => { if (e.target === lb) close(); });
+    lb.addEventListener('click', e => { if (e.target === lb || e.target === lb.querySelector('.lightbox-body')) close(); });
 
     document.addEventListener('keydown', e => {
       if (!lb.classList.contains('open')) return;
@@ -246,6 +267,14 @@
       if (e.key === 'ArrowLeft')  prev();
       if (e.key === 'ArrowRight') next();
     });
+
+    // Touch swipe
+    let touchX = 0;
+    lb.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 48) dx < 0 ? next() : prev();
+    }, { passive: true });
 
     document.addEventListener('click', e => {
       const article = e.target.closest('.project');
