@@ -83,3 +83,27 @@
 
 - 下一次 commit 必須包含 `public/images/`。
 - 不要把原始 `案件照片/` 直接加入 Git。
+
+## 2026-05-20 GitHub Pages 部署
+
+本次完成：
+
+- 建立公開 GitHub repo：`https://github.com/cjk483/Z_YUN-website`
+- 推送本地 commit：`e9a0cf2 Prepare Z-YUN website for GitHub Pages`
+- 啟用 GitHub Pages，來源為 `master` 分支根目錄。
+- 正式網址：`https://cjk483.github.io/Z_YUN-website/`
+
+驗證：
+
+- GitHub Pages build 狀態：built。
+- 正式網址可載入。
+- 頁面標題：`時蘊設計 Z-YUN A+U DESIGN`。
+- Projects 數量：7。
+- 首頁與 Projects 當前 DOM 圖片無破圖。
+- Facebook 與 Instagram 連結正確。
+
+目前狀態：
+
+- 本地 `master` 已追蹤 `origin/master`。
+- 工作區乾淨。
+- 尚未設定自訂網域。
