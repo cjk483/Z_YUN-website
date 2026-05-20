@@ -770,13 +770,16 @@ a.contact-val:hover {
 }
 
 @media (max-width: 768px) {
+  html { scroll-padding-top: 112px; }
+
   /* ── Sidebar → top bar ── */
   .sidebar {
     width: 100%;
     height: auto;
-    flex-direction: row;
-    align-items: center;
-    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px 18px 10px;
     border-right: none;
     border-bottom: 1px solid var(--border);
     z-index: 300;
@@ -785,8 +788,9 @@ a.contact-val:hover {
   .sidebar-top {
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
-    flex: 1;
+    width: 100%;
   }
 
   .logo-zh-group {
@@ -798,72 +802,253 @@ a.contact-val:hover {
   .logo-link { width: 34px; }
   .logo-img { width: 34px; }
 
-  .brand-zh { font-size: 15px; letter-spacing: 0.16em; }
+  .brand-zh { font-size: 16px; letter-spacing: 0.16em; }
   .brand-en { display: none; }
   .sidebar-tagline { display: none; }
 
   .sidebar-nav {
     flex-direction: row;
-    gap: 18px;
+    justify-content: space-between;
+    gap: 0;
     margin-top: 0;
+    width: 100%;
+    padding-top: 10px;
+    border-top: 1px solid rgba(31, 26, 22, 0.12);
   }
 
-  .nav-link { font-size: 11px; letter-spacing: 0.2em; }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    font-size: 11.5px;
+    letter-spacing: 0.18em;
+  }
 
-  .main-content { margin-left: 0; margin-top: 64px; }
+  .main-content { margin-left: 0; margin-top: 112px; }
 
   /* ── Hero: stacks ── */
   .hero-section {
     grid-template-columns: 1fr;
-    grid-template-rows: 56vh auto;
+    grid-template-rows: min(58vh, 460px) auto;
     height: auto;
+    min-height: calc(100svh - 112px);
   }
 
-  .hero-carousel { height: 56vh; }
+  .hero-carousel { height: min(58vh, 460px); }
+
+  .hero-slide img {
+    transform: scale(1.05);
+  }
 
   .hero-panel {
     border-left: none;
     border-top: 1px solid var(--text);
-    padding: 36px 28px;
+    padding: 34px 26px 38px;
     height: auto;
     justify-content: center;
   }
 
-  .hero-quote { font-size: 15px; line-height: 2.4; margin-bottom: 32px; }
+  .hero-quote {
+    font-size: 17px;
+    line-height: 2.25;
+    letter-spacing: 0.08em;
+    margin-bottom: 30px;
+  }
+
+  .hero-cta {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 18px;
+    font-size: 11px;
+  }
 
   /* ── Projects: single column on mobile ── */
   .projects-section {
     grid-template-columns: 1fr;
-    padding: 48px 24px 64px;
-    row-gap: 40px;
+    padding: 48px 22px 72px;
+    row-gap: 46px;
     column-gap: 0;
   }
 
-  .project-title { font-size: 18px; }
+  .projects-header {
+    padding-bottom: 18px;
+  }
+
+  .project-image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .project-panel {
+    padding-top: 18px;
+    gap: 7px;
+  }
+
+  .project-num {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+  }
+
+  .project-title {
+    font-size: 20px;
+    line-height: 1.55;
+    letter-spacing: 0.12em;
+  }
+
+  .project-loc {
+    font-size: 11px;
+    line-height: 1.7;
+    letter-spacing: 0.18em;
+  }
 
   /* ── About ── */
-  .about-section { padding: 64px 28px; min-height: auto; }
+  .about-section { padding: 72px 28px; min-height: auto; }
   .about-inner { gap: 40px; }
-  .about-philosophy { font-size: 16px; line-height: 2.2; }
+  .about-left .label-en { margin-bottom: 34px; }
+  .about-philosophy {
+    font-size: 18px;
+    line-height: 2.15;
+    letter-spacing: 0.06em;
+    margin-bottom: 30px;
+  }
+  .about-body {
+    font-size: 14.5px;
+    line-height: 2.25;
+    letter-spacing: 0.04em;
+  }
 
   /* ── Contact ── */
-  .contact-section { padding: 64px 28px; min-height: auto; }
-  .contact-row { grid-template-columns: 44px 1fr; gap: 16px; }
-  .contact-designer-name { font-size: 26px; }
+  .contact-section { padding: 72px 28px; min-height: auto; }
+  .contact-label-top { margin-bottom: 42px; }
+  .contact-designer {
+    margin-bottom: 36px;
+    padding-bottom: 34px;
+  }
+  .contact-designer-role { font-size: 10.5px; }
+  .contact-designer-name {
+    font-size: 28px;
+    line-height: 1.45;
+  }
+  .contact-designer-en { font-size: 13.5px; }
+  .contact-list {
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+  .contact-row {
+    grid-template-columns: 50px 1fr;
+    gap: 16px;
+  }
+  .contact-key {
+    font-size: 10.5px;
+  }
+  .contact-val {
+    font-size: 15px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+  .contact-social {
+    gap: 10px;
+    margin-bottom: 38px;
+  }
+  .social-link {
+    flex: 1 1 100%;
+    min-height: 48px;
+    padding: 0 16px;
+  }
+  .social-name {
+    font-size: 13px;
+  }
+  .contact-company {
+    font-size: 13.5px;
+    line-height: 1.9;
+  }
 
   /* ── Lightbox: mobile stacks vertically ── */
   .lightbox { flex-direction: column; }
-  .lightbox-photo-area { flex: none; height: 52vh; }
-  .lightbox-nav { font-size: 20px; padding: 16px 14px; }
+  .lightbox-photo-area { flex: none; height: 48svh; }
+  .lightbox-nav {
+    font-size: 34px;
+    padding: 18px 16px;
+    color: rgba(248, 245, 240, 0.72);
+  }
   .lightbox-info {
     width: 100%;
     flex: 1;
-    padding: 24px 24px 28px;
+    min-height: 52svh;
+    padding: 26px 24px 30px;
     overflow-y: auto;
   }
-  .lightbox-close { top: 20px; right: 20px; }
-  .lightbox-type-label { margin-top: 0; }
-  .lightbox-title { font-size: 24px; margin-bottom: 28px; }
+  .lightbox-close {
+    top: 22px;
+    right: 22px;
+    font-size: 10.5px;
+  }
+  .lightbox-type-label {
+    margin-top: 0;
+    font-size: 10px;
+  }
+  .lightbox-title {
+    font-size: 24px;
+    line-height: 1.45;
+    letter-spacing: 0.14em;
+    margin-bottom: 28px;
+    padding-right: 56px;
+  }
+  .lightbox-attr-row {
+    grid-template-columns: 86px 1fr;
+    padding: 13px 0;
+  }
+  .lightbox-attr-key { font-size: 9.5px; }
+  .lightbox-attr-val {
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
   .lightbox-footer { padding-top: 24px; }
-  .lightbox-desc { font-size: 11.5px; }
+  .lightbox-desc {
+    font-size: 13.5px;
+    line-height: 2.05;
+    letter-spacing: 0.04em;
+  }
+  .lightbox-counter { font-size: 11px; }
+}
+
+@media (max-width: 420px) {
+  .sidebar {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .brand-zh {
+    font-size: 15px;
+  }
+
+  .nav-link {
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+  }
+
+  .hero-panel,
+  .about-section,
+  .contact-section {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .projects-section {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .project-title {
+    font-size: 19px;
+  }
+
+  .contact-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .contact-key {
+    letter-spacing: 0.24em;
+  }
 }
