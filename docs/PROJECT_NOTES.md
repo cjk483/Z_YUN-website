@@ -127,3 +127,19 @@
 - Projects 數量仍為 7。
 - 社群入口仍為 Facebook / Instagram 兩個。
 - 非空圖片來源無破圖。
+
+## 2026-05-21 新增延平北路陳宅
+
+本次完成：
+
+- 新增作品「延平北路陳宅」。
+- 從 `案件照片/I013_延平北陳宅/` 輸出 7 張網站部署用 JPG 到 `public/images/project-08-yanping-chen/`。
+- 將「場景4」輸出為 `public/images/project-08-yanping-chen/04.jpg`，並加入首頁輪播。
+- 首頁輪播移除 1 張北投許宅照片，輪播總數維持 8 張。
+
+驗證：
+
+- `content.js` 語法檢查通過。
+- Projects 數量更新為 8。
+- 首頁輪播仍為 8 張。
+- `content.js` 目前引用的 69 張圖片皆存在。

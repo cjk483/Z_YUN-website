@@ -22,7 +22,7 @@ const CONTENT = {
     "public/images/project-01-beitou/01.jpg",
     "public/images/project-01-beitou/02.jpg",
     "public/images/project-01-beitou/03.jpg",
-    "public/images/project-01-beitou/04.jpg",
+    "public/images/project-08-yanping-chen/04.jpg",
     "public/images/project-02-banqiao/01.jpg",
     "public/images/project-03-zhubei-lobby/01.jpg",
     "public/images/project-04-zhubei-lounge/01.jpg",
@@ -227,6 +227,25 @@ const CONTENT = {
         "public/images/project-07-wuhan/06.jpg",
         "public/images/project-07-wuhan/07.jpg",
         "public/images/project-07-wuhan/08.jpg",
+      ],
+    },
+
+    // ── 08 延平北路陳宅 ───────────────────────────────
+    {
+      accent:      "#8A7564",
+      title:       "延平北路陳宅",
+      location:    "台北・延平北路",
+      type:        "住宅",
+      cover:       "public/images/project-08-yanping-chen/04.jpg",
+      description: "以溫潤木質與柔和米白作為空間基調，讓電視牆、收納量體與客廳端景彼此連續。自然光穿過白紗進入室內，降低材質的厚重感，也讓住宅在明亮與包覆之間，形成安定而細緻的生活表情。",
+      photos: [
+        "public/images/project-08-yanping-chen/01.jpg",
+        "public/images/project-08-yanping-chen/02.jpg",
+        "public/images/project-08-yanping-chen/03.jpg",
+        "public/images/project-08-yanping-chen/04.jpg",
+        "public/images/project-08-yanping-chen/05.jpg",
+        "public/images/project-08-yanping-chen/06.jpg",
+        "public/images/project-08-yanping-chen/07.jpg",
       ],
     },
 
