@@ -41,3 +41,12 @@
 - 專案索引：`G:\我的雲端硬碟\secondbrain\創作庫\專案\專案索引.md`
 
 重要進度更新時，優先更新工作台；不要在本地與 Obsidian 重複寫同一段長狀態。
+## Firebase / 部署狀態
+
+- 正式網站：https://zyun-design.web.app/
+- Firebase project：`zyun-design-website`
+- Hosting site：`zyun-design`
+- Firestore collection：`consultationRequests`
+- `firebase-site/` 是部署輸出資料夾，維持不納入 Git。
+- 目前不啟用 Cloud Functions Email 通知；避免因 Blaze 方案產生潛在收費。預約資料先由 Firebase Console 查看。
+- Looker Studio 已建立「時蘊設計｜網站週報」，資料來源為 GA4 `zyun-design-website`，已設定每週 Email 寄送。

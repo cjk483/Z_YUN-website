@@ -6,6 +6,63 @@
 (function () {
   'use strict';
 
+  function track(name, params) {
+    if (typeof window.trackZyunEvent === 'function') {
+      window.trackZyunEvent(name, params || {});
+    }
+  }
+
+  function projectParams(project) {
+    return {
+      project_title: project.title.replace(/\n/g, ' '),
+      project_type: project.type,
+      project_location: project.location
+    };
+  }
+
+  function initSectionTiming() {
+    const sections = ['hero', 'projects', 'about', 'contact']
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+    if (!sections.length) return;
+
+    let activeId = null;
+    let activeAt = 0;
+
+    function flushActiveSection(reason) {
+      if (!activeId || !activeAt) return;
+      const seconds = Math.round((Date.now() - activeAt) / 1000);
+      if (seconds > 0) {
+        track('section_time', {
+          section_id: activeId,
+          engagement_seconds: seconds,
+          reason: reason
+        });
+      }
+      activeAt = Date.now();
+    }
+
+    function setActiveSection(id) {
+      if (activeId === id) return;
+      flushActiveSection('section_change');
+      activeId = id;
+      activeAt = Date.now();
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+        .forEach(entry => setActiveSection(entry.target.id));
+    }, { threshold: [0.35, 0.55, 0.75] });
+
+    sections.forEach(section => observer.observe(section));
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') flushActiveSection('page_hidden');
+    });
+  }
+
   /* ── Hero Carousel ── */
   (function initCarousel() {
     const carousel = document.querySelector('.hero-carousel');
@@ -126,6 +183,11 @@
         ? `<a href="${href}" class="contact-val">${val}</a>`
         : `<span class="contact-val">${val}</span>`;
       row.innerHTML = `<span class="contact-key">${key}</span>${valEl}`;
+      if (href) {
+        row.querySelector('a').addEventListener('click', () => {
+          track('contact_click', { contact_type: key, contact_value: val });
+        });
+      }
       list.appendChild(row);
     });
 
@@ -146,6 +208,11 @@
         if (!url) link.setAttribute('aria-disabled', 'true');
         link.innerHTML = `${iconMap[name] || `<span class="social-mark">${label}</span>`}<span class="social-name">${name}</span>`;
         if (!url) link.addEventListener('click', e => e.preventDefault());
+        if (url) {
+          link.addEventListener('click', () => {
+            track('social_click', { social_name: name });
+          });
+        }
         socialList.appendChild(link);
       });
     }
@@ -153,6 +220,14 @@
 
 
   /* ── Active nav on scroll ── */
+  initSectionTiming();
+
+  document.querySelectorAll('.hero-cta').forEach(link => {
+    link.addEventListener('click', () => {
+      track('main_click', { click_type: 'hero_cta', target_id: 'projects' });
+    });
+  });
+
   (function initNav() {
     const navLinks = document.querySelectorAll('.nav-link');
 
@@ -179,6 +254,7 @@
     navLinks.forEach(link => {
       link.addEventListener('click', e => {
         const id = link.getAttribute('href').replace('#', '');
+        track('main_click', { click_type: 'nav', target_id: id });
         const el = document.getElementById(id);
         if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
       });
@@ -224,6 +300,8 @@
 
     let photos = [];
     let current = 0;
+    let activeProject = null;
+    let openedAt = 0;
 
     const imgEl      = lb.querySelector('.lightbox-img');
     const titleEl    = lb.querySelector('.lightbox-title');
@@ -245,6 +323,8 @@
     }
 
     function open(project, startIdx) {
+      activeProject = project;
+      openedAt = Date.now();
       photos  = project.photos && project.photos.length ? project.photos : [project.cover];
       current = startIdx || 0;
       typeLblEl.textContent = typeMap[project.type] || project.type;
@@ -255,15 +335,37 @@
       render();
       lb.classList.add('open');
       document.body.style.overflow = 'hidden';
+      track('project_open', projectParams(project));
     }
 
     function close() {
+      if (activeProject && openedAt) {
+        track('project_engagement_time', {
+          ...projectParams(activeProject),
+          engagement_seconds: Math.round((Date.now() - openedAt) / 1000)
+        });
+      }
       lb.classList.remove('open');
       document.body.style.overflow = '';
+      activeProject = null;
+      openedAt = 0;
     }
 
-    function prev() { current = (current - 1 + photos.length) % photos.length; render(); }
-    function next() { current = (current + 1) % photos.length; render(); }
+    function prev() {
+      current = (current - 1 + photos.length) % photos.length;
+      render();
+      if (activeProject) {
+        track('project_photo_prev', { ...projectParams(activeProject), photo_index: current + 1 });
+      }
+    }
+
+    function next() {
+      current = (current + 1) % photos.length;
+      render();
+      if (activeProject) {
+        track('project_photo_next', { ...projectParams(activeProject), photo_index: current + 1 });
+      }
+    }
 
     lb.querySelector('.lightbox-close').addEventListener('click', close);
     lb.querySelector('.lightbox-prev').addEventListener('click', e => { e.stopPropagation(); prev(); });

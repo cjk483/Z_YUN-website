@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>時蘊設計 Z-YUN A+U DESIGN</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260525-map-left">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     <div class="sidebar-top">
       <div class="logo-zh-group">
         <a href="#hero" class="logo-link" aria-label="時蘊設計 首頁">
-          <img class="logo-img" src="時蘊設計LOGO.png" alt="時蘊設計">
+          <img class="logo-img" src="logo.png" alt="時蘊設計">
         </a>
         <span class="brand-zh">時蘊設計</span>
       </div>
@@ -70,32 +70,92 @@
 
     <!-- CONTACT -->
     <section id="contact" class="section contact-section">
-      <div class="contact-inner">
-        <p class="label-en contact-label-top">Contact</p>
+      <div class="contact-inner contact-layout">
+        <div class="contact-main">
+          <p class="label-en contact-label-top">Contact</p>
 
-        <!-- Designer card sits above contact rows -->
-        <div class="contact-designer">
-          <p class="contact-designer-role"  id="designer-role"></p>
-          <h3 class="contact-designer-name" id="designer-name-zh"></h3>
-          <p class="contact-designer-en"    id="designer-name-en"></p>
-        </div>
+          <!-- Designer card sits above contact rows -->
+          <div class="contact-designer">
+            <p class="contact-designer-role"  id="designer-role"></p>
+            <h3 class="contact-designer-name" id="designer-name-zh"></h3>
+            <p class="contact-designer-en"    id="designer-name-en"></p>
+          </div>
 
-        <div class="contact-list" id="contact-list">
-          <!-- rows injected by main.js -->
+          <div class="contact-list" id="contact-list">
+            <!-- rows injected by main.js -->
+          </div>
+          <div class="contact-social" id="contact-social" aria-label="社群媒體">
+            <!-- social links injected by main.js -->
+          </div>
+          <form class="consultation-form" id="consultation-form">
+            <p class="consultation-title">預約諮詢</p>
+            <div class="form-grid">
+              <label class="form-field">
+                <span>姓名</span>
+                <input type="text" name="name" autocomplete="name" required>
+              </label>
+              <label class="form-field">
+                <span>電話</span>
+                <input type="tel" name="phone" autocomplete="tel" inputmode="tel" required>
+              </label>
+              <label class="form-field">
+                <span>Email</span>
+                <input type="email" name="email" autocomplete="email" required>
+              </label>
+              <label class="form-field">
+                <span>希望預約時間</span>
+                <input type="datetime-local" name="preferredTime" required>
+              </label>
+              <label class="form-field form-field-full">
+                <span>需求</span>
+                <textarea name="need" rows="5" required></textarea>
+              </label>
+              <label class="form-hp" aria-hidden="true">
+                <span>Website</span>
+                <input type="text" name="website" tabindex="-1" autocomplete="off">
+              </label>
+            </div>
+            <button class="form-submit" type="submit">送出預約</button>
+            <p class="form-message" id="consultation-message" aria-live="polite"></p>
+          </form>
+          <div class="contact-footer">
+            <p class="contact-company" id="contact-company"></p>
+          </div>
         </div>
-        <div class="contact-social" id="contact-social" aria-label="社群媒體">
-          <!-- social links injected by main.js -->
-        </div>
-        <div class="contact-footer">
-          <p class="contact-company" id="contact-company"></p>
-        </div>
+        <a class="map-card"
+           href="https://www.google.com/maps/search/?api=1&query=%E6%99%82%E8%98%8A%E5%AE%A4%E5%85%A7%E8%A3%9D%E4%BF%AE%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20105%E8%87%BA%E5%8C%97%E5%B8%82%E6%9D%BE%E5%B1%B1%E5%8D%80%E4%B8%89%E6%B0%91%E8%B7%AF136%E5%B7%B79%E8%99%9F2%E6%A8%93"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="在 Google Maps 開啟時蘊設計地址">
+          <span class="map-road map-road-main">三民路</span>
+          <span class="map-road map-road-lane">三民路 136 巷</span>
+          <span class="map-road map-road-fujin">富錦街</span>
+          <span class="map-road map-road-minsheng">民生東路五段</span>
+          <span class="map-pin" aria-hidden="true"></span>
+          <span class="map-place">時蘊設計</span>
+          <span class="map-open">Google Maps</span>
+        </a>
       </div>
     </section>
 
   </main>
 
-  <script src="content.js"></script>
-  <script src="js/main.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLDCLG30FF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LLDCLG30FF');
+
+    window.trackZyunEvent = function(name, params) {
+      if (typeof gtag === 'function') {
+        gtag('event', name, params || {});
+      }
+    };
+  </script>
+  <script src="content.js?v=20260525-map-left"></script>
+  <script src="js/main.js?v=20260525-map-left"></script>
+  <script type="module" src="js/consultation-form.js?v=20260525-map-left"></script>
   <script data-goatcounter="https://zyun-design.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
 </body>

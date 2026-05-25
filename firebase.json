@@ -1,0 +1,14 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "hosting": {
+    "site": "zyun-design",
+    "public": "firebase-site",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "**/.*"
+    ]
+  }
+}

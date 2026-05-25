@@ -47,3 +47,12 @@ http://127.0.0.1:4173/
 - `案件照片/` 為大型本機素材資料夾，不納入 Git。
 - `public/images/` 為部署用壓縮圖片，需納入 GitHub Pages。
 - GitHub remote 與正式部署目標尚未設定。
+## Firebase Hosting
+
+- 正式網站：https://zyun-design.web.app/
+- Firebase 專案：`zyun-design-website`
+- Hosting site：`zyun-design`
+- Firestore collection：`consultationRequests`
+- `firebase-site/` 是部署輸出資料夾，不提交到 Git。
+- 部署前需同步 `index.html`、`content.js`、`css/`、`js/`、`public/images/` 到 `firebase-site/`，並將 `時蘊設計LOGO.png` 複製為 `firebase-site/logo.png`。
+- 目前未啟用 Cloud Functions Email 通知；預約資料先到 Firebase Firestore 查看。

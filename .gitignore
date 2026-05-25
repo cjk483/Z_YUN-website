@@ -1,5 +1,9 @@
 # Photos folder (large, managed separately)
 案件照片/
+firebase-site/
+.firebase/
+.npm-cache/
+functions/node_modules/
 
 # Temp / editor
 _doc_content.txt
